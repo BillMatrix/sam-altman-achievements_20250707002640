@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam Altman</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --accent: #e74c3c;
+            --text: #333;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+        }
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        section {
+            padding: 5rem 10%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary);
+        }
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .home {
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+        .profile-img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 2rem;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--primary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
+            background-color: white;
+            border: 4px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .left {
+            left: 0;
+        }
+        .right {
+            left: 50%;
+        }
+        .right::after {
+            left: -12px;
+        }
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .timeline-content h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .achievements li {
+            margin-bottom: 1rem;
+            list-style-type: none;
+            position: relative;
+            padding-left: 2rem;
+        }
+        .achievements li::before {
+            content: '\ud83c\udfc6';
+            position: absolute;
+            left: 0;
+        }
+        .resources a {
+            display: block;
+            color: var(--primary);
+            text-decoration: none;
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+        .resources a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .back-to-top.show {
+            opacity: 1;
+        }
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                right: 0;
+                height: 92vh;
+                top: 8vh;
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 50%;
+                transform: translateX(100%);
+                transition: transform 0.5s ease-in;
+                box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links li {
+                margin: 1rem 0;
+            }
+            .hamburger {
+                display: block;
+            }
+            .nav-active {
+                transform: translateX(0%);
+            }
+            section {
+                padding: 5rem 5%;
+            }
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-item::after {
+                left: 18px;
+            }
+            .right {
+                left: 0%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Sam Altman</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#early-life">Early Life</a></li>
+                <li><a href="#y-combinator">Y Combinator</a></li>
+                <li><a href="#openai">OpenAI</a></li>
+                <li><a href="#ventures">Ventures</a></li>
+                <li><a href="#vision">Vision</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="home">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Sam_Altman_TechCrunch_SF_2019_Day_2_Oct_3_%28cropped%29.jpg/960px-Sam_Altman_TechCrunch_SF_2019_Day_2_Oct_3_%28cropped%29.jpg" alt="Sam Altman" class="profile-img">
+        <h1>Sam Altman</h1>
+        <p>CEO of OpenAI and a leading figure in the AI boom</p>
+        <a href="#early-life" class="btn">Learn More</a>
+    </section>
+
+    <section id="early-life">
+        <h2>Early Life & Career</h2>
+        <div class="card">
+            <p>Born on April 22, 1985, Sam Altman grew up in St. Louis, Missouri. From an early age, he showed a keen interest in computers and technology. He attended Stanford University to study computer science but dropped out to pursue entrepreneurial ventures.</p>
+            <p>In 2005, at just 19 years old, Altman co-founded Loopt, a location-based social networking mobile application. The company raised over $30 million in venture capital and was eventually acquired by Green Dot Corporation in 2012 for $43.4 million.</p>
+        </div>
+    </section>
+
+    <section id="y-combinator">
+        <h2>Y Combinator Era</h2>
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>2014</h3>
+                    <p>Sam Altman became president of Y Combinator, succeeding Paul Graham.</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>2015</h3>
+                    <p>Launched YC Continuity Fund, a growth-stage investment fund.</p>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>2016-2018</h3>
+                    <p>Significantly expanded YC's scope and influence in the startup ecosystem.</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>2019</h3>
+                    <p>Stepped down as president to focus on OpenAI.</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p>During his tenure as president of Y Combinator from 2014 to 2019, Sam Altman significantly expanded the accelerator's reach and impact. Under his leadership, YC funded hundreds of startups that went on to achieve tremendous success, including Airbnb, Dropbox, Stripe, and Reddit.</p>
+            <p>Altman introduced the YC Continuity fund, which allowed Y Combinator to continue supporting companies beyond their initial stages. His vision helped transform YC into one of the most influential startup accelerators in the world.</p>
+        </div>
+    </section>
+
+    <section id="openai">
+        <h2>OpenAI Leadership</h2>
+        <div class="card">
+            <p>In 2015, Sam Altman co-founded OpenAI alongside Elon Musk and others, with the mission to ensure that artificial general intelligence benefits all of humanity. Initially serving as the chairman of the board, Altman became CEO in 2019.</p>
+            <p>Under his leadership, OpenAI has developed groundbreaking AI models, including the GPT (Generative Pre-trained Transformer) series, which has revolutionized natural language processing. The release of ChatGPT in late 2022 marked a significant milestone in AI accessibility and capabilities.</p>
+            <p>Altman secured a landmark partnership with Microsoft, which invested billions of dollars in OpenAI, providing the company with the resources needed to advance its research and development. This strategic alliance has positioned OpenAI at the forefront of AI innovation.</p>
+        </div>
+    </section>
+
+    <section id="ventures">
+        <h2>Other Ventures & Investments</h2>
+        <div class="card">
+            <h3>Energy & Nuclear</h3>
+            <p>Altman has invested in Helion Energy and Oklo Inc., companies focused on developing clean energy solutions through nuclear fusion and advanced fission technologies.</p>
+        </div>
+        <div class="card">
+            <h3>Cryptocurrency & Blockchain</h3>
+            <p>He co-founded Worldcoin, a cryptocurrency project that aims to distribute digital currency to people around the world through iris scanning technology.</p>
+        </div>
+        <div class="card">
+            <h3>Biotechnology</h3>
+            <p>Altman is involved with Retro Biosciences, a company working on extending human healthspan through cellular reprogramming, autophagy, and plasma-inspired therapeutics.</p>
+        </div>
+        <div class="card">
+            <h3>Notable Investments</h3>
+            <p>Altman holds a significant stake in Reddit and was an early investor in Stripe, which has grown to become one of the most valuable private companies in the world.</p>
+        </div>
+    </section>
+
+    <section id="vision">
+        <h2>Impact & Vision</h2>
+        <div class="card">
+            <p>Sam Altman is a vocal advocate for the responsible development of artificial general intelligence (AGI). He believes that AGI has the potential to solve many of humanity's most pressing challenges but also acknowledges the significant risks it poses.</p>
+            <p>Altman envisions a future where AI transforms the job market and economy, creating new opportunities while disrupting traditional industries. He has emphasized the importance of addressing the societal impacts of these changes, including potential job displacement and economic inequality.</p>
+            <p>Through OpenAI, Altman has championed a balanced approach to AI development that prioritizes safety and ethical considerations. The company's charter explicitly states its commitment to ensuring that AGI benefits all of humanity and avoiding uses that could harm humanity or concentrate power.</p>
+        </div>
+    </section>
+
+    <section id="achievements">
+        <h2>Achievements & Awards</h2>
+        <div class="card">
+            <ul class="achievements">
+                <li>Named one of the top investors under 30 by Forbes</li>
+                <li>Received an honorary degree from the University of Waterloo</li>
+                <li>Featured on the TIME100 list of most influential people</li>
+                <li>Named CEO of the Year by Time Magazine in 2023</li>
+                <li>Recognized for his contributions to artificial intelligence and entrepreneurship</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="resources">
+        <h2>Resources</h2>
+        <div class="card resources">
+            <a href="https://www.britannica.com/biography/Sam-Altman" target="_blank">Britannica: Sam Altman Biography</a>
+            <a href="https://en.wikipedia.org/wiki/Sam_Altman" target="_blank">Wikipedia: Sam Altman</a>
+            <a href="https://time.com/collection/time100-ai/6309026/sam-altman/" target="_blank">TIME: Sam Altman Profile</a>
+            <a href="https://www.forbes.com/profile/sam-altman/" target="_blank">Forbes: Sam Altman Profile</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Sam Altman Profile | This website is for informational purposes only</p>
+    </footer>
+
+    <a href="#home" class="back-to-top">↑</a>
+
+    <script>
+        // Mobile navigation
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-active');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu if open
+                if (navLinks.classList.contains('nav-active')) {
+                    navLinks.classList.remove('nav-active');
+                }
+            });
+        });
+        
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+        
+        // Highlight active section in navigation
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-links a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.style.color = '';
+                if (item.getAttribute('href').substring(1) === current) {
+                    item.style.color = 'var(--primary)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
